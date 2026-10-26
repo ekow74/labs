@@ -1,0 +1,53 @@
+name: AI Curriculum Link Check
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'ai-research-engineer-curriculum/**'
+      - '.github/workflows/ai-curriculum-links.yml'
+  push:
+    branches:
+      - ai-curriculum-osint-v1.1
+    paths:
+      - 'ai-research-engineer-curriculum/**'
+      - '.github/workflows/ai-curriculum-links.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: ai-curriculum-lychee-${{ github.sha }}
+          restore-keys: ai-curriculum-lychee-
+
+      - name: Check curriculum links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --root-dir "$(pwd)"
+            --cache
+            --max-cache-age 1d
+            --verbose
+            --no-progress
+            './ai-research-engineer-curriculum/**/*.md'
+          fail: true
+          format: markdown
+          output: lychee-ai-curriculum.md
+
+      - name: Upload link-check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-curriculum-link-check
+          path: lychee-ai-curriculum.md
+          if-no-files-found: ignore
