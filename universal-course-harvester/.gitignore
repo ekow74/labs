@@ -1,0 +1,47 @@
+# Local secrets and browser authentication state
+.env
+.env.*
+!.env.example
+credentials/
+secrets/
+cookies*.txt
+browser-profiles/
+playwright/.auth/
+*.key
+*.pem
+*.pfx
+
+# Private learning materials, metadata, and generated library state
+LearningLibrary/
+library/
+downloads/
+staging/
+quarantine/
+private/
+learner-records/
+backups/
+_objects/
+_handbooks/
+_registry/
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.db
+
+# Runtime output: review/redact selected evidence before committing it explicitly
+logs/
+local-evidence/
+
+# Python / build caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
